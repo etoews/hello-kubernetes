@@ -39,10 +39,10 @@ To run the latest version.
 docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes
 ```
 
-To run a specific version, use the short hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master).
+To run a specific version, use the hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master) as the [tag](https://hub.docker.com/repository/docker/etoews/hello-kubernetes/tags).
 
 For example.
 
 ```
-docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes:0b7ef88
+docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes:b262b385143f10242d5dbe201b999ded7782087a
 ```
