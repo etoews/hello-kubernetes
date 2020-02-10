@@ -30,3 +30,19 @@ open http://localhost:5000/
 ```
 docker run -it --rm -p 5000:5000 hello-kubernetes sh
 ```
+
+## Run on Docker locally with image from DockerHub
+
+To run the latest version.
+
+```
+docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes
+```
+
+To run a specific version, use the short hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master).
+
+For example.
+
+```
+docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes:0b7ef88
+```
