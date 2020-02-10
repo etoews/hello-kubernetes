@@ -11,7 +11,7 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s'
 
 @app.route('/')
 def hello_world():
-    result = {'hostname': os.environ.get('HOSTNAME', 'HOSTNAME unset')}
+    result = {'hostname': os.environ.get('HOSTNAME', 'unset')}
     return json.dumps(result)
 
 
@@ -21,5 +21,5 @@ def sleep():
     logger.debug("sleep for %ss", seconds)
     time.sleep(seconds)
 
-    result = {'hostname': os.environ.get('HOSTNAME', 'HOSTNAME unset'), 'seconds': seconds}
+    result = {'hostname': os.environ.get('HOSTNAME', 'unset'), 'seconds': seconds}
     return json.dumps(result)

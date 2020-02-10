@@ -16,11 +16,17 @@ flask run --host=0.0.0.0
 open http://localhost:5000/
 ```
 
-## Run on Docker
+## Build and run on Docker locally
 
 ```
-docker build -t hello-kubernetes:1.0.0 .
-docker run -it --rm -p 5000:5000 hello-kubernetes:1.0.0
+docker build -t hello-kubernetes .
+docker run -it --rm -p 5000:5000 hello-kubernetes
 
 open http://localhost:5000/
+```
+
+## Debug the container on Docker locally
+
+```
+docker run -it --rm -p 5000:5000 hello-kubernetes sh
 ```
