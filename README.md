@@ -46,3 +46,10 @@ For example.
 ```
 docker run -it --rm -p 5000:5000 docker.io/etoews/hello-kubernetes:b262b385143f10242d5dbe201b999ded7782087a
 ```
+
+## Use the "API"
+
+```
+curl -s http://localhost:5000/sleep?seconds=3
+curl -s -X POST http://localhost:5000/sleep?seconds=30
+```

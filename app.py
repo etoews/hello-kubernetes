@@ -15,7 +15,7 @@ def hello_world():
     return json.dumps(result)
 
 
-@app.route('/sleep')
+@app.route('/sleep', methods=['GET', 'POST'])
 def sleep():
     seconds = request.args.get('seconds', default=60, type=int)
     logger.debug("sleep for %ss", seconds)
