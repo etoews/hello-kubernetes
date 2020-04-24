@@ -77,6 +77,12 @@ TODO: oc get route url
 TODO: delete project/deployment
 ```
 
+## Build and run on OpenShift 4 remotely
+
+```
+TODO: oc start-build
+```
+
 ## Use the "API"
 
 ```
