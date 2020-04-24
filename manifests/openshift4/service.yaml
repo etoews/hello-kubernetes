@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello
+  labels:
+    app: hello
+spec:
+  selector:
+    app: hello
+  ports:
+  - name: hello-5000-tcp
+    port: 5000
+    targetPort: 5000
