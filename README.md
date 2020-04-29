@@ -15,7 +15,7 @@ A simple web service to say hello Kubernetes using Python 3 and Flask.
 
 ## Run locally
 
-```
+```bash
 python -m venv venv
 source venv/bin/activate
 pip install --requirement requirements.txt
@@ -30,7 +30,7 @@ open http://localhost:5000/
 
 ## Build and run on Docker locally
 
-```
+```bash
 docker build -t hello-kubernetes .
 docker run -it --rm \
   --name hello \
@@ -42,7 +42,7 @@ open http://localhost:5000/
 
 ## Debug the container on Docker locally
 
-```
+```bash
 docker run -it --rm --name hello --publish 5000:5000 hello-kubernetes sh
 ```
 
@@ -50,7 +50,7 @@ docker run -it --rm --name hello --publish 5000:5000 hello-kubernetes sh
 
 To run the latest version.
 
-```
+```bash
 docker run -it --rm \
   --name hello \
   --publish 5000:5000 \
@@ -61,7 +61,7 @@ To run a specific version, use the hash from one of the [commits](https://github
 
 For example.
 
-```
+```bash
 docker run -it --rm \
   --name hello \
   --publish 5000:5000 \
@@ -70,22 +70,53 @@ docker run -it --rm \
 
 ## Run on OpenShift 4 remotely with image from DockerHub
 
-```
+```bash
+oc login
 oc new-project world
-oc apply -f manifests/openshift/ -n world
-TODO: oc get route url
-TODO: delete project/deployment
+
+oc process -o yaml -f manifests/openshift4/deployment.yaml \
+  --param IMAGE='docker.io/etoews/hello-kubernetes:latest' \
+  | oc apply -f -
+oc apply -f manifests/openshift4/service.yaml
+oc apply -f manifests/openshift4/route.yaml
+
+watch oc get all
+
+hello_world_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
+curl http://${hello_world_host}/
+
+oc delete project world
 ```
 
 ## Build and run on OpenShift 4 remotely
 
-```
-TODO: oc start-build
+```bash
+oc login
+oc new-project world
+
+oc apply -f manifests/openshift4/imagestream.yaml
+oc apply -f manifests/openshift4/buildconfig.yaml
+
+oc start-build hello
+oc watch get all
+
+oc process -o yaml -f manifests/openshift4/deployment.yaml \
+  --param IMAGE='image-registry.openshift-image-registry.svc:5000/world/hello:latest' \
+  | oc apply -f -
+oc apply -f manifests/openshift4/service.yaml
+oc apply -f manifests/openshift4/route.yaml
+
+watch oc get all
+
+hello_world_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
+curl http://${hello_world_host}/
+
+oc delete project world
 ```
 
 ## Use the "API"
 
-```
+```bash
 curl -s http://localhost:5000/sleep?seconds=3
 curl -s -X POST http://localhost:5000/sleep?seconds=30
 ```

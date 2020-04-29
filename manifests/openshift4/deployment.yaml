@@ -1,21 +1,29 @@
-kind: Deployment
-apiVersion: apps/v1
+apiVersion: v1
+kind: Template
 metadata:
-  name: hello
-  labels:
-    app: hello
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
+  name: deployment-edpay-services
+parameters:
+- name: IMAGE
+  required: true
+objects:
+- kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    name: hello
+    labels:
       app: hello
-  template:
-    metadata:
-      labels:
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
         app: hello
-    spec:
-      containers:
-      - name: hello
-        image: docker.io/etoews/hello-kubernetes:latest
-        ports:
-        - containerPort: 5000
+    template:
+      metadata:
+        labels:
+          app: hello
+      spec:
+        containers:
+        - name: hello
+          image: ${IMAGE}
+          ports:
+          - containerPort: 5000
