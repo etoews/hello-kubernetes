@@ -1,4 +1,6 @@
-FROM nicolaka/netshoot
+FROM nicolaka/netshoot:latest@sha256:ea3757c995a3b538c45724cd537beeb5363cdc094209920896826082509c26a3
+
+RUN python -m pip install --upgrade pip setuptools wheel
 
 COPY requirements.txt /tmp/
 RUN pip install --requirement /tmp/requirements.txt
