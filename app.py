@@ -1,12 +1,12 @@
-import os
-import json
 import logging
+import socket
 import time
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
+
 logging.basicConfig(
     format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',
     datefmt='%Y-%m-%dT%H:%M:%S', level=logging.DEBUG)
@@ -14,11 +14,11 @@ logging.basicConfig(
 
 @app.route('/')
 def hello_world():
-    result = {'hostname': os.environ.get('HOSTNAME', 'unset')}
-    return json.dumps(result)
+    result = {'hostname': socket.gethostname()}
+    return jsonify(result)
 
 
-@app.route('/sleep', methods=['GET', 'POST'])
+@app.route('/sleep')
 def sleep():
     seconds = request.args.get('seconds', default=60, type=int)
 
@@ -26,8 +26,8 @@ def sleep():
     time.sleep(seconds)
 
     result = {
-        'hostname': os.environ.get('HOSTNAME', 'unset'),
+        'hostname': socket.gethostname(),
         'seconds': seconds
     }
 
-    return json.dumps(result)
+    return jsonify(result)
