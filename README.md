@@ -1,6 +1,8 @@
 # Hello Kubernetes
 
-A simple web service to say hello to Docker, Kubernetes, or OpenShift using Python 3 and Flask. It's a good first container to run on a new cluster.
+A simple web service to say hello to Docker, Kubernetes, or OpenShift using Python and Flask. It's a good first container to run on a new cluster.
+
+This image is based on the excellent [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot) image, "a Docker + Kubernetes network trouble-shooting swiss-army container". So if you need to do some network debugging you can run this container, open a shell in it, and have a whole toolbox full of networking tools at your fingertips.
 
 These examples assume you're bringing your own Docker, Kubernetes, or OpenShift environment.
 
