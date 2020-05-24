@@ -13,13 +13,15 @@ These examples assume you're bringing your own Docker, Kubernetes, or OpenShift 
 * [Docker](#docker)
     * [Build and run on Docker locally](#build-and-run-on-docker-locally)
     * [Run on Docker locally with image from DockerHub](#run-on-docker-locally-with-image-from-dockerhub)
-    * [Debug the container on Docker locally](#debug-the-container-on-docker-locally)
+    * [Troubleshoot the container on Docker](#troubleshoot-the-container-on-docker)
 * [Kubernetes](#kubernetes)
     * [Run on Kubernetes locally with image from DockerHub](#run-on-kubernetes-locally-with-image-from-dockerhub)
     * [Run on Kubernetes remotely with image from DockerHub](#run-on-kubernetes-remotely-with-image-from-dockerhub)
+    * [Troubleshoot the container and cluster networking on Kubernetes](#troubleshoot-the-container-and-cluster-networking-on-kubernetes)
 * [OpenShift](#openshift)
     * [Run on OpenShift 4 remotely with image from DockerHub](#run-on-openshift-4-remotely-with-image-from-dockerhub)
     * [Build and run on OpenShift 4 remotely](#build-and-run-on-openshift-4-remotely)
+* [Run a specific version](#run-a-specific-version)
 
 <!-- /TOC -->
 
@@ -56,26 +58,11 @@ curl -s http://localhost:5000/
 
 ### Run on Docker locally with image from DockerHub
 
-To run the latest version.
-
 ```bash
 docker run -it --rm \
   --name hello \
   --publish 5000:5000 \
   docker.io/etoews/hello-kubernetes:latest
-
-curl -s http://localhost:5000/
-```
-
-To run a specific version, use the hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master) as the [tag](https://hub.docker.com/repository/docker/etoews/hello-kubernetes/tags).
-
-For example.
-
-```bash
-docker run -it --rm \
-  --name hello \
-  --publish 5000:5000 \
-  docker.io/etoews/hello-kubernetes:b262b385143f10242d5dbe201b999ded7782087a
 
 curl -s http://localhost:5000/
 ```
@@ -127,15 +114,12 @@ Notes:
 
 ### Troubleshoot the container and cluster networking on Kubernetes
 
+See  [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot) for the many networking tools included in the image.
+
 ```bash
 hello_pod_0=$(kubectl get pods -o jsonpath="{.items[0].metadata.name}" -n world)
 kubectl exec -it ${hello_pod_0} -n world bash
-```
-
-In the container
-
-```bash
-
+curl -s https://icanhazip.com
 ```
 
 ## OpenShift
@@ -182,4 +166,19 @@ hello_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
 curl http://${hello_host}/
 
 oc delete project world
+```
+
+## Run a specific version
+
+To run a specific version, use the hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master) as the [tag](https://hub.docker.com/repository/docker/etoews/hello-kubernetes/tags).
+
+For example.
+
+```bash
+docker run -it --rm \
+  --name hello \
+  --publish 5000:5000 \
+  docker.io/etoews/hello-kubernetes:b262b385143f10242d5dbe201b999ded7782087a
+
+curl -s http://localhost:5000/
 ```
