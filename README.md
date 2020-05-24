@@ -2,7 +2,7 @@
 
 A simple web service to say hello to Docker, Kubernetes, or OpenShift using Python and Flask. It's a good first container to run on a new cluster.
 
-This image is based on the excellent [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot) image, "a Docker + Kubernetes network trouble-shooting swiss-army container". So if you need to do some network debugging you can run this container, open a shell in it, and have a whole toolbox full of networking tools at your fingertips.
+This image is based on the excellent [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot) image, "a Docker + Kubernetes network troubleshooting swiss-army container". So if you need to do some network debugging you can run this container, open a shell in it, and have a whole toolbox full of networking tools at your fingertips.
 
 These examples assume you're bringing your own Docker, Kubernetes, or OpenShift environment.
 
@@ -80,10 +80,10 @@ docker run -it --rm \
 curl -s http://localhost:5000/
 ```
 
-### Debug the container on Docker locally
+### Troubleshoot the container on Docker
 
 ```bash
-docker run -it --rm --name hello --publish 5000:5000 hello-kubernetes sh
+docker exec -it hello bash
 ```
 
 ## Kubernetes
@@ -115,8 +115,8 @@ kubectl apply -f manifests/kubernetes/service.yaml -n world
 
 watch kubectl get all -n world
 
-hello_world_host=$(kubectl get service hello -o jsonpath="{.status.loadBalancer.ingress[*].hostname}" -n world)
-curl -s http://${hello_world_host}:5000/
+hello_host=$(kubectl get service hello -o jsonpath="{.status.loadBalancer.ingress[*].hostname}" -n world)
+curl -s http://${hello_host}:5000/
 
 kubectl delete namespace world
 ```
@@ -124,6 +124,19 @@ kubectl delete namespace world
 Notes:
 
 * The `kubectl delete namespace world` will take a minute or two as it will also delete the load balancer instance behind it (e.g. delete the ELB if you're using EKS)
+
+### Troubleshoot the container and cluster networking on Kubernetes
+
+```bash
+hello_pod_0=$(kubectl get pods -o jsonpath="{.items[0].metadata.name}" -n world)
+kubectl exec -it ${hello_pod_0} -n world bash
+```
+
+In the container
+
+```bash
+
+```
 
 ## OpenShift
 
@@ -140,8 +153,8 @@ oc apply -f manifests/openshift4/route.yaml
 
 watch oc get all
 
-hello_world_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
-curl http://${hello_world_host}/
+hello_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
+curl http://${hello_host}/
 
 oc delete project world
 ```
@@ -165,8 +178,8 @@ oc apply -f manifests/openshift4/route.yaml
 
 watch oc get all
 
-hello_world_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
-curl http://${hello_world_host}/
+hello_host=$(oc get route hello --no-headers -o=custom-columns=HOST:.spec.host)
+curl http://${hello_host}/
 
 oc delete project world
 ```
