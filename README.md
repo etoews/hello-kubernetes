@@ -21,6 +21,7 @@ These examples assume you're bringing your own Docker, Kubernetes, or OpenShift 
 * [OpenShift](#openshift)
     * [Run on OpenShift 4 remotely with image from DockerHub](#run-on-openshift-4-remotely-with-image-from-dockerhub)
     * [Build and run on OpenShift 4 remotely](#build-and-run-on-openshift-4-remotely)
+    * [Troubleshoot the container and cluster networking on OpenShift 4](#troubleshoot-the-container-and-cluster-networking-on-openshift-4)
 * [Run a specific version](#run-a-specific-version)
 
 <!-- /TOC -->
