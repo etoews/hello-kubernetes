@@ -1,0 +1,7 @@
+__pycache__
+hooks
+manifests
+venv
+LICENSE
+*.pyc
+*.md
