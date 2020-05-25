@@ -168,6 +168,16 @@ curl http://${hello_host}/
 oc delete project world
 ```
 
+### Troubleshoot the container and cluster networking on OpenShift 4
+
+See  [nicolaka/netshoot](https://hub.docker.com/r/nicolaka/netshoot) for the many networking tools included in the image.
+
+```bash
+hello_pod_0=$(oc get pods --selector app=hello -o jsonpath="{.items[0].metadata.name}")
+oc rsh ${hello_pod_0}
+curl -s https://icanhazip.com
+```
+
 ## Run a specific version
 
 To run a specific version, use the hash from one of the [commits](https://github.com/etoews/hello-kubernetes/commits/master) as the [tag](https://hub.docker.com/repository/docker/etoews/hello-kubernetes/tags).
