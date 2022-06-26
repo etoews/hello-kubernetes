@@ -19,3 +19,11 @@ spec:
         image: docker.io/etoews/hello-kubernetes:latest
         ports:
         - containerPort: 5000
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1G"
+          requests:
+            cpu: "0.5"
+            memory: "500Mi"
+
